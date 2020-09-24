@@ -7,10 +7,6 @@
 // if wrong and dotn have guesses left show losing message and update the game, reset the game
 // if right, we show a winning message and update the wins and reseet the game
 
-
-
-
-
 // Game variables
 let wins = 0
 let losses = 0
@@ -26,8 +22,6 @@ const guessesLeftElement = () => (document.getElementById('guesses-left').innerH
 const userGuessesElement = () => (document.getElementById('user-guesses').innerHTML = userGuesses)
 
 // UI Functions, use functions to store code that will manipulate the dom
-
-
 
 //utility function
 const computerChoice = () => {
@@ -45,6 +39,40 @@ const takeTurn = userChoice => {
     //show new values and render to page
     userGuessesElement()
     guessesLeftElement()
+}
+
+const checkForValidTurn = userChoice => {
+        //correct keys:
+    //exclude special char
+    //only alphas
+    //exclude duplicate
+
+    if(!letters.includes(userChoice)) {
+        //show an error excludes numbers & spec char
+        displayMessage('No special characers!')
+    } else if (userGuesses.includes(userChoice)) {
+        //exclude duplicates
+        displayMessage('no same letters twice!')
+    } else {
+        takeTurn(userChoice)
+    }
+}
+
+const checkWinCondition = userChoice => {
+    if(randomLetter === userChoice) {
+        wins += 1
+        displayMessage('You won!')
+        initializeGame()
+    // if right -> win, then incremnt wins and show the win message
+
+
+    } else if (guessesLeft === 0) {
+        // if no guesses left, then -> losss +1 to a loss based on game end
+        losses += 1
+        displayMessage('You ran out of guesses!')
+        initializeGame()
+    // if wrong -> then decrement # of guesses
+    }
 }
 
 // initialize the game function
@@ -86,45 +114,8 @@ const initializeGame = () => {
 document.addEventListener('keypress', function(e) {
     // save the value
     const userChoice = e.key.toLowerCase()
-    
-    //correct keys:
-    //exclude special char
-    //only alphas
-    //exclude duplicate
-
-    if(!letters.includes(userChoice)) {
-        //show an error excludes numbers & spec char
-        displayMessage('No special characers!')
-    } else if (userGuesses.includes(userChoice)) {
-        //exclude duplicates
-        displayMessage('no same letters twice!')
-    } else {
-        takeTurn(userChoice)
-    }
-
-
-
-
-
-    console.log(guessesLeft)
-    console.log('userchoise' + userChoice)
-    //check the userChoice against the random letter chosen by pc
-
-
-    if(randomLetter === userChoice) {
-        wins += 1
-        displayMessage('You won!')
-        initializeGame()
-    // if right -> win, then incremnt wins and show the win message
-
-
-    } else if (guessesLeft === 0) {
-        // if no guesses left, then -> losss +1 to a loss based on game end
-        losses += 1
-        displayMessage('You ran out of guesses!')
-        initializeGame()
-    // if wrong -> then decrement # of guesses
-    }
+    checkForValidTurn(userChoice)
+    checkWinCondition(userChoice)
   })
 
   //
