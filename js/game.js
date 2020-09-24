@@ -38,6 +38,15 @@ const computerChoice = () => {
 
 const displayMessage = message => alert(message)
 
+const takeTurn = userChoice => {
+    //excludes special char
+    guessesLeft -= 1
+    userGuesses.push(userChoice)
+    //show new values and render to page
+    userGuessesElement()
+    guessesLeftElement()
+}
+
 // initialize the game function
 const initializeGame = () => {
     /**
@@ -90,12 +99,7 @@ document.addEventListener('keypress', function(e) {
         //exclude duplicates
         displayMessage('no same letters twice!')
     } else {
-        //excludes special char
-        guessesLeft -= 1
-        userGuesses.push(userChoice)
-        //show new values and render to page
-        userGuessesElement()
-        guessesLeftElement()
+        takeTurn(userChoice)
     }
 
 
