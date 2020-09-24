@@ -15,7 +15,7 @@
 let wins = 0
 let losses = 0
 let guessesLeft = 10
-let userGuesses = ['']
+let userGuesses = []
 let randomLetter
 const letters = 'abcdefghijklmnopqrstuvwxyz'.split('')  //generates an array from the string of letters
 
@@ -25,6 +25,10 @@ const lossesElement = () => (document.getElementById('losses').innerHTML = losse
 const guessesLeftElement = () => (document.getElementById('guesses-left').innerHTML = guessesLeft)
 const userGuessesElement = () => (document.getElementById('user-guesses').innerHTML = userGuesses)
 
+// UI Functions, use functions to store code that will manipulate the dom
+
+
+
 //utility function
 const computerChoice = () => {
     //recreate letters at an index
@@ -32,6 +36,7 @@ const computerChoice = () => {
     console.log(randomLetter)
 }
 
+const displayMessage = message => alert(message)
 
 // initialize the game function
 const initializeGame = () => {
@@ -63,18 +68,63 @@ const initializeGame = () => {
 }
 
 
-// UI Functions, use functions to store code that will manipulate the dom
 
 
 
 //  event listeners
+
 // listen for user to type a key in the keyboard
-//check that against the random letter chosen by pc
-// if right -> win, then incremnt wins and show the win message
-// if wrong -> then decrement # of guesses
-// if no guesses left, then -> losss +1 to a loss based on game end
-// a) [a,b,c,d,e.....] 10th elm <== at the time of the loss condition
-//
+document.addEventListener('keypress', function(e) {
+    // save the value
+    const userChoice = e.key.toLowerCase()
+    
+    //correct keys:
+    //exclude special char
+    //only alphas
+    //exclude duplicate
+
+    if(!letters.includes(userChoice)) {
+        //show an error excludes numbers & spec char
+        displayMessage('No special characers!')
+    } else if (userGuesses.includes(userChoice)) {
+        //exclude duplicates
+        displayMessage('no same letters twice!')
+    } else {
+        //excludes special char
+        guessesLeft -= 1
+        userGuesses.push(userChoice)
+        //show new values and render to page
+        userGuessesElement()
+        guessesLeftElement()
+    }
+
+
+
+
+
+    console.log(guessesLeft)
+    console.log('userchoise' + userChoice)
+    //check the userChoice against the random letter chosen by pc
+
+
+    if(randomLetter === userChoice) {
+        wins += 1
+        displayMessage('You won!')
+        initializeGame()
+    // if right -> win, then incremnt wins and show the win message
+
+
+    } else if (guessesLeft === 0) {
+        // if no guesses left, then -> losss +1 to a loss based on game end
+        losses += 1
+        displayMessage('You ran out of guesses!')
+        initializeGame()
+    // if wrong -> then decrement # of guesses
+    }
+  })
+
+  //
+  // a) [a,b,c,d,e.....] 10th elm <== at the time of the loss condition
 
 
 // initialize the app
