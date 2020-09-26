@@ -20,6 +20,7 @@ const winsElement = () => (document.getElementById('wins').innerHTML = wins)
 const lossesElement = () => (document.getElementById('losses').innerHTML = losses)
 const guessesLeftElement = () => (document.getElementById('guesses-left').innerHTML = guessesLeft)
 const userGuessesElement = () => (document.getElementById('user-guesses').innerHTML = userGuesses)
+const lettersContainerElements = string => (document.getElementById('letter-buttons-container').innerHTML = string)
 
 // UI Functions, use functions to store code that will manipulate the dom
 
@@ -75,6 +76,16 @@ const checkWinCondition = userChoice => {
     }
 }
 
+const renderLetters = () => {
+    let letterButtons = ''
+
+    letters.forEach(function(letter) {
+            letterButtons += `<button type="button" class="btn btn-outline-info">${letter}</button>`
+        }
+    ) 
+    return letterButtons
+}
+
 // initialize the game function
 const initializeGame = () => {
     /**
@@ -101,6 +112,7 @@ const initializeGame = () => {
     guessesLeftElement()
     userGuessesElement()
     computerChoice()
+    lettersContainerElements(renderLetters())
 
 }
 
